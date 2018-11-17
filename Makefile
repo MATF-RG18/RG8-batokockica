@@ -1,6 +1,6 @@
 
-batoKockica: main.c lighting.c camera.c 
-	gcc -o batoKockica main.c lighting.c camera.c -lglut -lGLU -lGL -lm
+bla: main.c input.c lighting.c camera.c player.c
+	gcc -o bla main.c input.c lighting.c camera.c player.c  -lglut -lGLU -lGL -lm
 
 .PHONY: clean
 

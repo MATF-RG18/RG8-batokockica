@@ -1,5 +1,7 @@
+#include "input.h"
 #include "lighting.h"
 #include "camera.h"
+#include "player.h"
 
 #include <stdio.h>
 #include <GL/glut.h>
@@ -25,14 +27,15 @@ int main(int argc, char** argv){
 
     glutInitWindowSize(900, 600);
     glutInitWindowPosition(100,100);
-    glutCreateWindow("Cracking open a cold one with the Bois");
+    glutCreateWindow("The engines don't move the ship at all. The ship stays where it is and the engines move the universe around it");
 
     //init
     initAmbientLighting();
     initPlayerLighting();
 
-    //glutKeyboardFunc(onKeyboard);
-    //glutKeyboardFunc(onKeyboardUp);
+    glutKeyboardFunc(onKeyboard);
+    glutKeyboardUpFunc(onKeyboardUp);
+
     //glutMotionFunc(onMousePressedLook);
     //glutSetCursor(GLUT_CURSOR_NONE); 
 
@@ -79,6 +82,7 @@ static void onDisplay(void){
 	glutSolidCube(1);
     //TestEnd
 
+    drawPlayer();
 
     glutSwapBuffers();
 }
@@ -98,7 +102,7 @@ static void onTimerUpdate(int id){
     }
 
     updateDeltaTime();
-    
+    movePlayer();
     //Kretanje + collisions
 
     glutPostRedisplay();
