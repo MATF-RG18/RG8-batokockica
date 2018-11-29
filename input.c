@@ -54,6 +54,10 @@ void onKeyboardUp(unsigned char key, int x, int y)
     }
 }
 
+void onMousePressed(int button, int state, int x, int y){ //Umesto ovog jedan koristiti macro za sirinu bulleta
+    fireBullet(FADE_BULLET, player.posx, player.posy, player.posz + 1); //Pravimo novi metak na click
+}
+
 //Indikator za dijagonalno kretanje
 bool twoButtonsPressed(){
     if(KEY_W && KEY_A || KEY_W && KEY_D)

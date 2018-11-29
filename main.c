@@ -2,6 +2,7 @@
 #include "lighting.h"
 #include "camera.h"
 #include "player.h"
+#include "bullets.h"
 
 #include <stdio.h>
 #include <GL/glut.h>
@@ -35,8 +36,9 @@ int main(int argc, char** argv){
 
     glutKeyboardFunc(onKeyboard);
     glutKeyboardUpFunc(onKeyboardUp);
-
-    //glutMotionFunc(onMousePressedLook);
+    
+    glutMouseFunc(onMousePressed);
+    
     //glutSetCursor(GLUT_CURSOR_NONE); 
 
     glutDisplayFunc(onDisplay);
@@ -83,6 +85,7 @@ static void onDisplay(void){
     //TestEnd
 
     drawPlayer();
+    drawBullets();
 
     glutSwapBuffers();
 }
@@ -103,6 +106,7 @@ static void onTimerUpdate(int id){
 
     updateDeltaTime();
     movePlayer();
+    moveBullets();
     //Kretanje + collisions
 
     glutPostRedisplay();

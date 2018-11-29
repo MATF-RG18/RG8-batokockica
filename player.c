@@ -31,13 +31,13 @@ void movePlayer(void)
     }
     if (KEY_A)
     {
-        player.posx -= d * speed * player.accelerate;
+        player.posx += d * speed * player.accelerate;
         printf("%f\n", speed * player.accelerate);
 
     }
     if (KEY_D)
     {
-        player.posx += d * speed * player.accelerate;
+        player.posx -= d * speed * player.accelerate;
     }
 }
 
