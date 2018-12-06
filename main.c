@@ -3,7 +3,8 @@
 #include "camera.h"
 #include "player.h"
 #include "bullets.h"
-
+#include "obstacle.h"
+#include <time.h>
 #include <stdio.h>
 #include <GL/glut.h>
 #include <math.h>
@@ -31,8 +32,10 @@ int main(int argc, char** argv){
     glutCreateWindow("The engines don't move the ship at all. The ship stays where it is and the engines move the universe around it");
 
     //init
+    srand(time(NULL));
     initAmbientLighting();
     initPlayerLighting();
+    initObstacles();
 
     glutKeyboardFunc(onKeyboard);
     glutKeyboardUpFunc(onKeyboardUp);
@@ -72,20 +75,19 @@ static void onDisplay(void){
     //update obstacles && render them
     //update player position and render him
     
-    //TestStart
-    GLfloat materialWallAmb[] = {0.6, 0.6, 0.6, 1};
-	GLfloat materialWallDiff[] = {0.8, 0.8, 0.4, 1}; 
-	GLfloat materialWallSpec[] = {0.41, 0.3, 0.4}; 
-
-	glMaterialfv(GL_FRONT, GL_AMBIENT, materialWallAmb);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, materialWallDiff);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, materialWallSpec);
-    glMaterialf(GL_FRONT, GL_SHININESS, 58);
-	glutSolidCube(1);
+    // //TestStart
+    // colorBulletMaterial();
+    // glPushMatrix();
+    //     glTranslatef(0, -1, 24);
+    //     glScalef(12, 1, 50);
+    //     glutSolidCube(1);
+    // glPopMatrix();
     //TestEnd
 
+    fadeBulletMaterial();
     drawPlayer();
     drawBullets();
+    drawObstacles();
 
     glutSwapBuffers();
 }
@@ -107,6 +109,9 @@ static void onTimerUpdate(int id){
     updateDeltaTime();
     movePlayer();
     moveBullets();
+    moveObstacles();
+    playerObstacleCollision();
+    bulletObstacleCollision();
     //Kretanje + collisions
 
     glutPostRedisplay();

@@ -18,7 +18,6 @@ void onKeyboardUp(unsigned char key, int x, int y);
 void onKeyHold(void);
 bool twoButtonsPressed();
 
-//LUT_LEFT_BUTTON, GLUT_MIDDLE_BUTTON, or GLUT_RIGHT_BUTTON. state je da l je za pustanje ili sitskanje
 void onMousePressed(int button, int state, int x, int y);
 
 #endif

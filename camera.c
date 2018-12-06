@@ -5,10 +5,10 @@ Camera camera;
 void setCameraPosition(void){
 	camera.posx = 0;
 	camera.posy = 3;
-	camera.posz = -5;
+	camera.posz = -6;
 
 	camera.lookDirectionX = 0; 
-	camera.lookDirectionY = 2; 
+	camera.lookDirectionY = 3; 
 	camera.lookDirectionZ = 0;
 	
     gluLookAt(camera.posx, camera.posy, camera.posz,

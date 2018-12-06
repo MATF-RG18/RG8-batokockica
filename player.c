@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player player = {0, 2, 0, 0, 0};
+Player player = {0, 0, 0, 1, 0 ,0};
 
 void movePlayer(void)
 {
@@ -20,31 +20,30 @@ void movePlayer(void)
     if(!KEY_A && !KEY_D && !KEY_S && !KEY_W)
         player.accelerate = 0;
 
-    if (KEY_W)
+    if (KEY_W && canMoveUp())
     {
         player.posy += d * speed * player.accelerate;
-        printf("%f\n", speed * player.accelerate);
     }
-    if (KEY_S)
+    if (KEY_S && canMoveDown())
     {
         player.posy -= d * speed * player.accelerate;
     }
-    if (KEY_A)
+    if (KEY_A && canMoveLeft())
     {
         player.posx += d * speed * player.accelerate;
-        printf("%f\n", speed * player.accelerate);
-
     }
-    if (KEY_D)
+    if (KEY_D && canMoveRight())
     {
         player.posx -= d * speed * player.accelerate;
     }
+
+    printf("%f %f\n", player.posx, player.posy);
 }
 
 void drawPlayer(void)
 {
     glPushMatrix();
     glTranslatef(player.posx, player.posy, player.posz);
-    glutSolidCube(1);
+    glutSolidCube(player.size);
     glPopMatrix();
 }

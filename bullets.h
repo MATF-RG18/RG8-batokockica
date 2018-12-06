@@ -3,6 +3,8 @@
 
 #include "player.h"
 
+#define MAX_BULLET_SPEED 0.05
+
 //Maximum bulleta iste vrste koji mozemo sakupiti
 #define MAX_GRAVITY_BULLETS 15
 #define MAX_COLOR_BULLETS 15
@@ -26,6 +28,9 @@ typedef struct {
     float posy;
     float posz;
 
+    float width;
+    float height;
+
     int bulletType; //Bullet type
     int fired;
 }Bullet;
@@ -37,4 +42,10 @@ extern Bullet firedBullets[MAX_FIRED_BULLETS];
 void drawBullets(void);
 void moveBullets(void);
 void fireBullet(int bulletType, float x, float y, float z); //bullet leti prema 
+
+void setBulletMaterial(int type);
+void gravityBulletMaterial();
+void colorBulletMaterial();
+void fadeBulletMaterial();
+
 #endif
