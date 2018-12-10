@@ -9,7 +9,6 @@
 #define MAX_GRAVITY_BULLETS 15
 #define MAX_COLOR_BULLETS 15
 #define MAX_FADE_BULLETS 15
-
 #define MAX_FIRED_BULLETS 45
 
 //Bullet types, enum?
@@ -32,7 +31,7 @@ typedef struct {
     float height;
 
     int bulletType; //Bullet type
-    int fired;
+    int fired; //
 }Bullet;
 
 //Ovde bi bilo korisnije da smo implementirali listu i isli preko toga, lazy for that :(

@@ -23,6 +23,7 @@ bool canMoveUp();
 bool canMoveDown();
 
 bool cubeIntersect(float x1, float y1, float z1, float size1, float x2, float y2, float z2, float size2);
+
 bool playerObstacleCollision();
 bool bulletObstacleCollision();
 #endif

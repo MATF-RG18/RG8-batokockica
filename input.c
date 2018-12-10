@@ -60,11 +60,11 @@ void onMousePressed(int button, int state, int x, int y)
 
     if (state == GLUT_UP)
     {
-        if (button == GLUT_LEFT_BUTTON)
+        if (button == GLUT_RIGHT_BUTTON)
             fireBullet(GRAVITY_BULLET, player.posx, player.posy, player.posz);
         else if (button == GLUT_MIDDLE_BUTTON)
             fireBullet(COLOR_BULLET, player.posx, player.posy, player.posz);
-        else if (button == GLUT_RIGHT_BUTTON)
+        else if (button == GLUT_LEFT_BUTTON)
             fireBullet(FADE_BULLET, player.posx, player.posy, player.posz);
     }
 }

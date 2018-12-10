@@ -12,11 +12,11 @@ void drawBullets(void){
     
     for(int i = 0; i < MAX_FIRED_BULLETS; i++){
         if(!firedBullets[i].fired)
-            break;
+            continue;
         
         float x = firedBullets[i].posx;
         float y = firedBullets[i].posy;
-        float z = firedBullets[i].posz; //Pomeramo bullet za mali deo, dt???
+        float z = firedBullets[i].posz;
 
         float width = firedBullets[i].width;
         float height = firedBullets[i].height;

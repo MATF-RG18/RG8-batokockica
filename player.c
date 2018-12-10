@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player player = {0, 0, 0, 1, 0 ,0};
+Player player = {0, 0, 0, 1, 0, 0, 1};
 
 void movePlayer(void)
 {
@@ -42,8 +42,21 @@ void movePlayer(void)
 
 void drawPlayer(void)
 {
+    setPlayerMaterial();
     glPushMatrix();
     glTranslatef(player.posx, player.posy, player.posz);
     glutSolidCube(player.size);
     glPopMatrix();
+}
+
+void setPlayerMaterial()
+{
+    GLfloat materialWallAmb[] = {1, player.greenColor, player.blueColor, 1};
+    GLfloat materialWallDiff[] = {1, player.greenColor, player.blueColor, 1};
+    GLfloat materialWallSpec[] = {1, player.greenColor, player.blueColor};
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, materialWallAmb);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, materialWallDiff);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, materialWallSpec);
+    glMaterialf(GL_FRONT, GL_SHININESS, 1);
 }
