@@ -22,14 +22,14 @@ void setAmbientLightingPosition(void){
         0, 6, 4, 0
     };
 
-    glEnable(lights[AMBIENT_LIGHTING]);
     glLightfv(lights[AMBIENT_LIGHTING], GL_POSITION, lightPosition);
+    glEnable(lights[AMBIENT_LIGHTING]);
 }
 
 void initPlayerLighting(void){
-    GLfloat ambientLight[] = {0.2, 0.2, 0.2, 1};
-    GLfloat diffuseLight[] = {0.9, 0.9, 0.9, 1};
-    GLfloat specularLight[] = {0.2, 0.2, 0, 1};
+    GLfloat ambientLight[] = {0, 0, 0, 1};
+    GLfloat diffuseLight[] = {0.3, 1, 1, 1};
+    GLfloat specularLight[] = {1, 1, 1, 1};
 
     glLightfv(lights[PLAYER_LIGHTING], GL_AMBIENT, ambientLight);
     glLightfv(lights[PLAYER_LIGHTING], GL_DIFFUSE, diffuseLight);
@@ -39,6 +39,10 @@ void initPlayerLighting(void){
 }
 
 void setPlayerLightingPosition(void){
+    lightingAtPlayer.posx = player.posx;
+    lightingAtPlayer.posy = player.posy;
+    lightingAtPlayer.posz = player.posz + player.size/2; //Drzimo lighting na celu playera
+
     GLfloat lightPosition[] = {
         lightingAtPlayer.posx, 
         lightingAtPlayer.posy, 

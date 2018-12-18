@@ -26,7 +26,7 @@ void onKeyboard(unsigned char key, int x, int y)
     case ('D'):
         KEY_D = 1;
         break;
-    case (ESC): //ESC dugme, TD: napravi define za ovo
+    case (ESC): 
         exit(0);
         break;
     }
@@ -56,11 +56,10 @@ void onKeyboardUp(unsigned char key, int x, int y)
 }
 
 void onMousePressed(int button, int state, int x, int y)
-{ //Uzeti u obzir sirinu bulleta i poziciju odakle se metak ispaljuje
-
-    if (state == GLUT_UP)
-    {
-        if (button == GLUT_RIGHT_BUTTON)
+{
+    if (state == GLUT_UP) //Klikom misa, TEK kada pustimo klik ispalicemo bullet
+    {                     
+        if (button == GLUT_RIGHT_BUTTON) //Svaki od 3 klika ispaljuje razliciti bullet
             fireBullet(GRAVITY_BULLET, player.posx, player.posy, player.posz);
         else if (button == GLUT_MIDDLE_BUTTON)
             fireBullet(COLOR_BULLET, player.posx, player.posy, player.posz);
@@ -69,7 +68,7 @@ void onMousePressed(int button, int state, int x, int y)
     }
 }
 
-//Indikator za dijagonalno kretanje
+//Vraca tacno ukoliko su aktivni dugmici za dijagonalno kretanje
 bool twoButtonsPressed()
 {
     if (KEY_W && KEY_A || KEY_W && KEY_D)

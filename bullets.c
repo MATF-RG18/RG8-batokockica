@@ -1,17 +1,20 @@
 #include "bullets.h"
 
 //Broj raspolozenih metkova, init
-int gravityBullets = MAX_GRAVITY_BULLETS;
-int colorBullets = MAX_COLOR_BULLETS;
-int fadeBullets = MAX_FADE_BULLETS;
+int gravityBullets = INIT_GRAVITY_BULLETS;
+int colorBullets = INIT_COLOR_BULLETS;
+int fadeBullets = INIT_FADE_BULLETS;
 
-int firedBulletCounter = 0; //Ide od 0 do max fired bullets
-Bullet firedBullets[MAX_FIRED_BULLETS];
+int firedBulletCounter = 0; //Krece se u krug od 0 do MAX_FIRED_BULLETS, pokazivac na poziciju 
+                           //gde cemo upisati sledeci ispaljen bullet
+                            
+Bullet firedBullets[MAX_FIRED_BULLETS];                   
+
 
 void drawBullets(void){
     
     for(int i = 0; i < MAX_FIRED_BULLETS; i++){
-        if(!firedBullets[i].fired)
+        if(!firedBullets[i].fired) //Renderujemo bullet ukoliko je ispaljen
             continue;
         
         float x = firedBullets[i].posx;
@@ -35,13 +38,14 @@ void drawBullets(void){
 void moveBullets(void){
     
     for(int i = 0; i < MAX_FIRED_BULLETS; i++){
-        if(!firedBullets[i].fired)
+        if(!firedBullets[i].fired) //Pomeramo sve ispaljene bullete svaki
             continue;
 
         firedBullets[i].posz += MAX_BULLET_SPEED * dt;
     }
 }
 
+//Ispaljujemo bullet koji krece od pozicije (x,y,z) zadatog tipa i smanjujemo zalihe odredjenog bulleta
 void fireBullet(int bulletType, float x, float y, float z){
     
     if(bulletType == FADE_BULLET)
@@ -65,12 +69,14 @@ void fireBullet(int bulletType, float x, float y, float z){
     firedBullets[firedBulletCounter].posx = x;
     firedBullets[firedBulletCounter].posy = y;
     firedBullets[firedBulletCounter].posz = z;
+
     firedBullets[firedBulletCounter].bulletType = bulletType;
-    firedBullets[firedBulletCounter].fired = 1;
+    firedBullets[firedBulletCounter].fired = true;
 
     firedBullets[firedBulletCounter].width = 1;
     firedBullets[firedBulletCounter].height = 12;
 
+    //Pomeramo pokazivac na sledece slobodno mesto za sledeci bullet koji je ispaljen
     if(firedBulletCounter < MAX_FIRED_BULLETS)
         firedBulletCounter++;
     else

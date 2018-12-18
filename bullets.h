@@ -6,15 +6,17 @@
 #define MAX_BULLET_SPEED 0.05
 
 //Maximum bulleta iste vrste koji mozemo sakupiti
-#define MAX_GRAVITY_BULLETS 15
-#define MAX_COLOR_BULLETS 15
-#define MAX_FADE_BULLETS 15
+#define INIT_GRAVITY_BULLETS 15
+#define INIT_COLOR_BULLETS 15
+#define INIT_FADE_BULLETS 15
+
+//Max bulleta koje mozemo istovremeno renderovati
 #define MAX_FIRED_BULLETS 45
 
-//Bullet types, enum?
-#define GRAVITY_BULLET 0
-#define COLOR_BULLET 1
-#define FADE_BULLET 2
+//Tipovi bulleta
+#define GRAVITY_BULLET 0 //Salje obstacle po Y osi ka gore
+#define COLOR_BULLET 1 //Menja boju bulleta
+#define FADE_BULLET 2 //Smanjuje size bulleta dok ne nestane
 
 //Broj bulleta odredjene vrste koji trenutno imamo na raspolaganju
 extern int gravityBullets;
@@ -22,7 +24,7 @@ extern int colorBullets;
 extern int fadeBullets;
 
 //Bullet koji je opaljen i koji treba da renderujemo/pomeramo, sudaramo sa objektima
-typedef struct {
+typedef struct _Bullet{
     float posx;
     float posy;
     float posz;
@@ -31,7 +33,7 @@ typedef struct {
     float height;
 
     int bulletType; //Bullet type
-    int fired; //
+    bool fired; //Indikator da li je bullet opaljen i da li leti
 }Bullet;
 
 //Ovde bi bilo korisnije da smo implementirali listu i isli preko toga, lazy for that :(

@@ -1,9 +1,11 @@
-#include "input.h"
-#include "lighting.h"
 #include "camera.h"
-#include "player.h"
 #include "bullets.h"
 #include "obstacle.h"
+#include "textures.h"
+#include "lighting.h"
+#include "player.h"
+#include "input.h"
+
 #include <time.h>
 #include <stdio.h>
 #include <GL/glut.h>
@@ -32,6 +34,7 @@ int main(int argc, char** argv){
     glutCreateWindow("The engines don't move the ship at all. The ship stays where it is and the engines move the universe around it");
 
     //init
+    initTextures();
     srand(time(NULL));
     initAmbientLighting();
     initPlayerLighting();
@@ -42,7 +45,7 @@ int main(int argc, char** argv){
     
     glutMouseFunc(onMousePressed);
     
-    //glutSetCursor(GLUT_CURSOR_NONE); 
+    glutSetCursor(GLUT_CURSOR_NONE); 
 
     glutDisplayFunc(onDisplay);
     glutReshapeFunc(onReshape);
@@ -54,6 +57,7 @@ int main(int argc, char** argv){
     glEnable(GL_CULL_FACE);
     glEnable(GL_LIGHTING);
     
+
     glutTimerFunc(UPDATE_TIMER_INTERVAL, onTimerUpdate, TIMER_UPDATE_ID);
 
     glutMainLoop();
@@ -66,26 +70,16 @@ static void onDisplay(void){
 	glMatrixMode(GL_MODELVIEW);
   	glLoadIdentity();
     setCameraPosition();
-    
+
+
     //lightingPositions
     setPlayerLightingPosition();
     setAmbientLightingPosition();
 
-    //skyBoxDraw()
-    //update obstacles && render them
-    //update player position and render him
-    
-    // //TestStart
-    // colorBulletMaterial();
-    // glPushMatrix();
-    //     glTranslatef(0, -1, 24);
-    //     glScalef(12, 1, 50);
-    //     glutSolidCube(1);
-    // glPopMatrix();
-    //TestEnd
-
-    fadeBulletMaterial();
     drawPlayer();
+    
+    skyBoxDraw();
+    
     drawBullets();
     drawObstacles();
 
@@ -98,7 +92,7 @@ static void onReshape(int width, int height){
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(80, (float) width /height, 1, 150); //Random valeus 
+	gluPerspective(105, (float) width /height, 1, 150); 
 }
 
 static void onTimerUpdate(int id){
@@ -107,12 +101,13 @@ static void onTimerUpdate(int id){
     }
 
     updateDeltaTime();
+
     movePlayer();
     moveBullets();
     moveObstacles();
+
     playerObstacleCollision();
     bulletObstacleCollision();
-    //Kretanje + collisions
 
     glutPostRedisplay();
     glutTimerFunc(UPDATE_TIMER_INTERVAL, onTimerUpdate, TIMER_UPDATE_ID);

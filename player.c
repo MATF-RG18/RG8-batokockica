@@ -37,15 +37,14 @@ void movePlayer(void)
         player.posx -= d * speed * player.accelerate;
     }
 
-    printf("%f %f\n", player.posx, player.posy);
 }
 
 void drawPlayer(void)
 {
     setPlayerMaterial();
     glPushMatrix();
-    glTranslatef(player.posx, player.posy, player.posz);
-    glutSolidCube(player.size);
+        glTranslatef(player.posx, player.posy, player.posz);        
+        playerTextureDraw();
     glPopMatrix();
 }
 
@@ -59,4 +58,32 @@ void setPlayerMaterial()
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialWallDiff);
     glMaterialfv(GL_FRONT, GL_SPECULAR, materialWallSpec);
     glMaterialf(GL_FRONT, GL_SHININESS, 1);
+}
+
+//Ukoliko player jede obstacle, u zavisnosti od boje kocke postoje odredjena desavanja
+void eatCube(ObstacleCube *cube)
+{
+    if (cube->size > 0)
+    {
+        if (cube->colorType == COLOR_LIMEGREEN)
+        {
+            player.size -= 0.001;
+            //Zelene kocke nam povecavaju helte i samim tim menjaju boju playera ka ljubicastoj
+            player.greenColor -= player.greenColor > 0 ? 0.001 : 0;
+            player.blueColor += player.blueColor < 100 ? 0.001 : 0;
+
+            if(cube->size < 0.05) //Ukoliko 'core kocke' dobijamo bullete
+                fadeBullets++;
+                gravityBullets++;
+                colorBullets++;
+        }
+        else if (cube->colorType == COLOR_CYAN)
+        {
+            player.size += 0.001;
+            //Plave kocke smanjuju helte i menjaju boju playera ka crvenoj
+            player.greenColor += player.greenColor > 0 ? 0.001 : 0;
+            player.blueColor -= player.blueColor < 100 ? 0.001 : 0;
+        }
+        cube->eaten = true;
+    }
 }

@@ -1,9 +1,15 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#ifndef TYPEDEF_OBSTACLECUBE_DECLARED_
+#define TYPEDEF_OBSTACLECUBE_DECLARED_
+typedef struct _ObstacleCube ObstacleCube;
+#endif
+
 #include "input.h"
 #include "collisions.h"
-
+#include "obstacle.h"
+#include "textures.h"
 #include <stdio.h>
 #include <GL/glut.h>
 #include <math.h>
@@ -16,11 +22,11 @@ typedef struct {
     float posz;
 
     float size;
-    float accelerate; //Vrednost izmedju 0-1, ubrzavanje do maksimalne brzine
+    float accelerate;
                        //blue + green = 1;
     float greenColor; //Init vrednost je nula
     float blueColor; //Init vrednost je 1 i predstavlja helte playera
-}Player;
+}Player;            
 
 extern Player player;
 extern int dt;
@@ -29,5 +35,7 @@ void movePlayer(void);
 void drawPlayer(void);
 void playerDied(void);
 void setPlayerMaterial();
+
+void eatCube(ObstacleCube* cube);
 
 #endif

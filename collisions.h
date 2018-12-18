@@ -8,6 +8,7 @@
 #include "obstacle.h"
 #include "bullets.h"
 
+//Granice po kojoj player moze da se krece
 #define PLAYER_MOVEMENT_WIDTH 10
 #define PLAYER_MOVEMENT_HEIGHT 5
 
@@ -16,7 +17,7 @@ typedef struct {
     float y;
 }Point;
 
-//Za playera
+//Playera movement
 bool canMoveLeft();
 bool canMoveRight();
 bool canMoveUp();
