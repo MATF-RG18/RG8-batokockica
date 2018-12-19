@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player player = {0, 0, 0, 1, 0, 0, 1};
+Player player = {0, 0, 0, 1, 0, 0, 1, 0};
 
 void movePlayer(void)
 {
@@ -68,22 +68,29 @@ void eatCube(ObstacleCube *cube)
         if (cube->colorType == COLOR_LIMEGREEN)
         {
             player.size -= 0.001;
+            player.score -= -0.1;
             //Zelene kocke nam povecavaju helte i samim tim menjaju boju playera ka ljubicastoj
             player.greenColor -= player.greenColor > 0 ? 0.001 : 0;
-            player.blueColor += player.blueColor < 100 ? 0.001 : 0;
+            player.blueColor += player.blueColor < 1 ? 0.001 : 0;
 
-            if(cube->size < 0.05) //Ukoliko 'core kocke' dobijamo bullete
+            if(cube->size < 0.1){//Ukoliko 'core kocke' dobijamo bullete
                 fadeBullets++;
                 gravityBullets++;
                 colorBullets++;
+            }
         }
         else if (cube->colorType == COLOR_CYAN)
         {
             player.size += 0.001;
+            player.score += 0.15;
             //Plave kocke smanjuju helte i menjaju boju playera ka crvenoj
-            player.greenColor += player.greenColor > 0 ? 0.001 : 0;
-            player.blueColor -= player.blueColor < 100 ? 0.001 : 0;
+            player.greenColor += player.greenColor < 1 ? 0.001 : 0;
+            player.blueColor -= player.blueColor > 0 ? 0.001 : 0;
         }
         cube->eaten = true;
     }
+}
+
+void increasePlayerScore(float d){
+    player.score += d;
 }

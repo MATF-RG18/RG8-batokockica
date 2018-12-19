@@ -26,6 +26,7 @@ typedef struct {
                        //blue + green = 1;
     float greenColor; //Init vrednost je nula
     float blueColor; //Init vrednost je 1 i predstavlja helte playera
+    float score;
 }Player;            
 
 extern Player player;
@@ -37,5 +38,5 @@ void playerDied(void);
 void setPlayerMaterial();
 
 void eatCube(ObstacleCube* cube);
-
+void increasePlayerScore(float d);
 #endif
