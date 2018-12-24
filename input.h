@@ -11,8 +11,8 @@
 
 #define ESC (27)
 
-extern int KEY_D, KEY_A, KEY_S, KEY_W;
-
+extern bool KEY_D, KEY_A, KEY_S, KEY_W;
+extern bool fullScreen;
 void onKeyboard(unsigned char key, int x, int y);
 void onKeyboardUp(unsigned char key, int x, int y);
 void onKeyHold(void);

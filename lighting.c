@@ -41,7 +41,8 @@ void initPlayerLighting(void){
 void setPlayerLightingPosition(void){
     lightingAtPlayer.posx = player.posx;
     lightingAtPlayer.posy = player.posy;
-    lightingAtPlayer.posz = player.posz + player.size/2; //Drzimo lighting na celu playera
+    //Drzimo lighting na celu playera
+    lightingAtPlayer.posz = player.posz + player.size/2;
 
     GLfloat lightPosition[] = {
         lightingAtPlayer.posx, 

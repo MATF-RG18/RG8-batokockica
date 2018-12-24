@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "player.h"
+
 #define AMBIENT_LIGHTING (0)
 #define PLAYER_LIGHTING (1)
 

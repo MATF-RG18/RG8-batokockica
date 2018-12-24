@@ -13,7 +13,6 @@ typedef struct {
     float lookDirectionX;
     float lookDirectionY;
     float lookDirectionZ;
-    //Minimalno pomeranje zajedno sa playerom?
 }Camera;
 
 extern Camera camera;

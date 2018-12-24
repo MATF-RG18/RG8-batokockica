@@ -1,20 +1,20 @@
 #include "bullets.h"
 
-//Broj raspolozenih metkova, init
 int gravityBullets = INIT_GRAVITY_BULLETS;
 int colorBullets = INIT_COLOR_BULLETS;
 int fadeBullets = INIT_FADE_BULLETS;
 
-int firedBulletCounter = 0; //Krece se u krug od 0 do MAX_FIRED_BULLETS, pokazivac na poziciju 
-                           //gde cemo upisati sledeci ispaljen bullet
-                            
+//Krece se u krug od 0 do MAX_FIRED_BULLETS, pokazivac na poziciju 
+//gde cemo upisati sledeci ispaljen bullet
+int firedBulletCounter = 0;                            
+
 Bullet firedBullets[MAX_FIRED_BULLETS];                   
 
-
 void drawBullets(void){
-    
+
     for(int i = 0; i < MAX_FIRED_BULLETS; i++){
-        if(!firedBullets[i].fired) //Renderujemo bullet ukoliko je ispaljen
+        //Renderujemo bullet ukoliko je ispaljen
+        if(!firedBullets[i].fired) 
             continue;
         
         float x = firedBullets[i].posx;
@@ -38,7 +38,8 @@ void drawBullets(void){
 void moveBullets(void){
     
     for(int i = 0; i < MAX_FIRED_BULLETS; i++){
-        if(!firedBullets[i].fired) //Pomeramo sve ispaljene bullete svaki
+        //Pomeramo sve ispaljene bullete
+        if(!firedBullets[i].fired) 
             continue;
 
         firedBullets[i].posz += MAX_BULLET_SPEED * dt;

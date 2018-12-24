@@ -2,9 +2,9 @@
 
 //Pokazivac na poziciju gde ce se sacuvati prvi sledeci obstacle, ide od 0 do MAX_OBSTACLES pa u krug
 int obstacleCounter = 0;
+//Niz obstacla koje renderujemo
 Obstacle obstacles[MAX_OBSTACLES];
 
-int gameLevel = 2; // od 1 do 5
 
 void initObstacles()
 {
@@ -15,10 +15,16 @@ void initObstacles()
 }
 
 //Generisemo obstacleWall na poziciji Z
-//Svaki wall ima kocke random velicine i random x,y kordinata na datoj z kordinati
+//Svaki wall ima kocke random velicine i random x, y kordinata na datoj z kordinati
 void generateNextWall(int z)
 {
-    int numberOfCubes = rand() % (MAX_CUBES_PER_OBSTACLE / MAX_LEVEL * gameLevel); // Ovo treba da budem random i vece kako level raste
+    
+    if (obstacleCounter < MAX_OBSTACLES)
+        obstacleCounter++;
+    else
+        obstacleCounter = 0;
+    
+    int numberOfCubes = rand() % (MAX_CUBES_PER_OBSTACLE / MAX_LEVEL * gameLevel);
 
     obstacles[obstacleCounter].numberOfCubes = numberOfCubes;
 
@@ -43,10 +49,6 @@ void generateNextWall(int z)
         obstacles[obstacleCounter].cubes[i].size = MIN_CUBE_SIZE + ((double)rand() / (double)RAND_MAX); //Min je 0.1 a max ~1.1
     }
 
-    if (obstacleCounter < MAX_OBSTACLES)
-        obstacleCounter++;
-    else
-        obstacleCounter = 0;
 }
 
 void moveObstacles()
@@ -55,42 +57,49 @@ void moveObstacles()
     {
         for (int j = 0; j < obstacles[i].numberOfCubes; j++)
         {
-            //Pomeramo po Y osi ukoliko je vektor vecy veci od 0 (odnosno ako je pogodjen sa gravityBulletom)
-            obstacles[i].cubes[j].posy += obstacles[i].cubes[j].vecy;
             //Pomeramo ka playeru 
             obstacles[i].cubes[j].posz -= OBSTACLE_SPEED * dt * gameLevel;
+    
+            //Pomeramo po Y osi ukoliko je vektor vecy veci od 0 (odnosno ako je pogodjen sa gravityBulletom)
+            obstacles[i].cubes[j].posy += obstacles[i].cubes[j].vecy;
             
-            
+            //Ukoliko player jede cube, smanji size
             if (obstacles[i].cubes[j].eaten)
                 if (obstacles[i].cubes[j].size > 0)
-                    obstacles[i].cubes[j].size -= 0.04;
+                    obstacles[i].cubes[j].size -= 0.02 * gameLevel;
                 else
                     obstacles[i].cubes[j].size = 0;
 
+            //Smanji kocku ukoliko je pogodjena sa fade bulletom
             if (obstacles[i].cubes[j].hitByBullet)
                 if (obstacles[i].cubes[j].size > 0)
-                    obstacles[i].cubes[j].size -= 0.04;
+                    obstacles[i].cubes[j].size -= 0.02 * gameLevel;
                 else
                     obstacles[i].cubes[j].size = 0;
 
-            //Kada cube ode iza playerovih ledja, pokrenuti animaciju smanjivanja i pomeranja na stranu
-            if (obstacles[i].cubes[j].posz < player.posz - player.size * 2)
+            //Kada cube bude na sredini izmedju playera i camere, pokrecemo njegovo smanjivanje i pomeranje u stranu
+            if (obstacles[i].cubes[j].posz < (camera.posz + player.posz) /2 )
             {
                 if (obstacles[i].cubes[j].size > 0)
                 {  
+                    //Smanjujemo size kocke i pomeramo je na levu ili desnu stranu u zavisnosti da da li je u
+                    //negativnom ili pozitivnom delu X ose
                     obstacles[i].cubes[j].posx += obstacles[i].cubes[j].posx > 0 ? 0.5 : -0.5;
-                    obstacles[i].cubes[j].size -= 0.1; //Kada prepreke odu iza playera, smanjujemo ih i sklanjamo
-                }                                      //Levo ili desno u zavisnosti sa koje strane su y ose
+                    obstacles[i].cubes[j].size -= 0.1; 
+                }                                      
             }
 
-            if (obstacles[i].cubes[0].posz < -6)
+            
+            // Kada wall obstacla ode iza vidnog polja kamere, generisemo opet ispred playera
+            if (obstacles[i].cubes[0].posz <= camera.posz)
             {
-                generateNextWall(40); // Kada wall obstacla ode iza vidnog polja kamere, generisemo opet ispred playera
+                generateNextWall(MAX_OBSTACLES - 1);
             }
         }
     }
 }
 
+//Renderujemo kocke obstacl-a
 void drawObstacles()
 {
     for (int i = 0; i < MAX_OBSTACLES; i++)
@@ -100,8 +109,8 @@ void drawObstacles()
             obstacleMaterial(obstacles[i].cubes[j].colorType);
 
             glPushMatrix();
-            glTranslatef(obstacles[i].cubes[j].posx, obstacles[i].cubes[j].posy, obstacles[i].cubes[j].posz);
-            glutSolidCube(obstacles[i].cubes[j].size);
+                glTranslatef(obstacles[i].cubes[j].posx, obstacles[i].cubes[j].posy, obstacles[i].cubes[j].posz);
+                glutSolidCube(obstacles[i].cubes[j].size);
             glPopMatrix();
         }
     }
@@ -145,7 +154,8 @@ void hitByBullet(ObstacleCube *cube, Bullet *bullet)
 {
     if (bullet->bulletType == FADE_BULLET)
     {
-        cube->hitByBullet = true; //Ovaj indikator koristimo samo kada smanjujemo kocku (odnosno pogodjen fadebulletom)
+        //Ovaj indikator koristimo samo kada smanjujemo kocku (odnosno pogodjen fadebulletom)
+        cube->hitByBullet = true; 
     }
     else if (bullet->bulletType == COLOR_BULLET)
     { //Menjamo boju
@@ -156,5 +166,5 @@ void hitByBullet(ObstacleCube *cube, Bullet *bullet)
         cube->vecy = 0.2;
     }
 
-    bullet->fired = 0;
+    bullet->fired = false;
 }

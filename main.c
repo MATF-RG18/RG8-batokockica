@@ -31,27 +31,26 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutInitWindowSize(900, 600);
+    glutInitWindowSize(1700, 800);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("The engines don't move the ship at all. The ship stays where it is and the engines move the universe around it");
+    // glutFullScreen();
+    glutCreateWindow("The engines don't move the ship at all. The ship stays where it is and the engines move the universe around it.");
 
     //init
-    initTextures();
     srand(time(NULL));
+    initTextures();
     initAmbientLighting();
     initPlayerLighting();
     initObstacles();
 
     glutKeyboardFunc(onKeyboard);
     glutKeyboardUpFunc(onKeyboardUp);
-
     glutMouseFunc(onMousePressed);
-
     glutSetCursor(GLUT_CURSOR_NONE);
+
 
     glutDisplayFunc(onDisplay);
     glutReshapeFunc(onReshape);
-
     glClearColor(0, 0, 0, 1);
 
     glEnable(GL_DEPTH_TEST);
@@ -66,20 +65,22 @@ int main(int argc, char **argv)
 
 static void onDisplay(void)
 {
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     setCameraPosition();
 
-    //lightingPositions
     setPlayerLightingPosition();
     setAmbientLightingPosition();
 
-    drawHealths();
     drawScore();
     drawPlayer();
+
+    if(!decayPlayerHealths(0))
+        drawGameOver();
+    else
+        drawHealths();
 
     skyBoxDraw();
 
@@ -107,10 +108,16 @@ static void onTimerUpdate(int id)
     }
 
     updateDeltaTime();
-
-    movePlayer();
-    increasePlayerScore(0.001);
-    moveBullets();
+   
+    if(decayPlayerHealths(0.00005)){
+        movePlayer();
+        moveBullets();
+        increasePlayerScore(0.0005);
+        increaseLevel();
+    }else{
+        killPlayer();
+    }
+    
     moveObstacles();
 
     playerObstacleCollision();
